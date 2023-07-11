@@ -14,6 +14,9 @@ const ChatRoom = () => {
   let username;
   if (typeof window !== "undefined" && window.localStorage) {
     username = localStorage.getItem("username");
+    if(username == null) {
+      username == 'user'
+    }
   }
 
 
