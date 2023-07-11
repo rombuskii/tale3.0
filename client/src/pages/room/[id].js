@@ -91,8 +91,8 @@ const send = async(e) => {
 
 useEffect(() => {
   console.log("Connecting to WebSocket server...");
-  
-  const newSocket = io('http://localhost:3001', {
+
+  const newSocket = io('https://tale-tcz3.onrender.com', {
     transports: ["websocket"],
   });
 
