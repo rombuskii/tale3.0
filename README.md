@@ -10,7 +10,7 @@ yarn dev
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result or visit [https://tale-r.vercel.app/](https://tale-r.vercel.app/) for the production build
 
 ## Features
 
