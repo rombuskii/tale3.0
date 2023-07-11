@@ -124,6 +124,7 @@ useEffect(() => {
   return (
     <div>
       <div className='w-full h-screen overflow-auto'>
+      <div onClick={() => navigator.clipboard.writeText(id)} className='hover:cursor-pointer fixed w-full flex justify-center items-center gap-x-4 top-20 sm:top-20'><p>ROOM ID - {id}</p><i class="fa-regular fa-clipboard"></i></div>
       <i onClick={() => router.push('/')} className=" duration-300 fa-solid fa-circle-left text-3xl sm:text-5xl hover:scale-110 hover:translate-x-1 hover:opacity-40 cursor-pointer"></i>
         {messages?.map((msg, i) => {
           if(typeof msg === 'object') {
