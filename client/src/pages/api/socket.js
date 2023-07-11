@@ -19,7 +19,7 @@ const SocketHandler = (req, res) => {
   io.on('connection', socket => {
     socket.broadcast.emit("A user connected server-side")
     socket.on('send-message', (msg) => {
-        console.log('Message on server')
+        //console.log('Message on server')
         socket.broadcast.emit('receive-message', msg)
     })
   })

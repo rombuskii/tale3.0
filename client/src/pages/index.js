@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google'
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
+import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -10,7 +11,7 @@ export default function Home() {
   const [username, setUsername] = useState('')
   const [code, setCode] = useState('')
   const [current, setCurrent] = useState('')
-  console.log(current)
+  //console.log(current)
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
       setCurrent(localStorage.getItem("current"))

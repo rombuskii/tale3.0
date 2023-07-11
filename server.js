@@ -11,14 +11,14 @@ app.use(cors()); // Enable CORS for all routes
 
 io.on('connection', socket => {
     socket.broadcast.emit("A user connected server-side")
-    
+
     socket.on('send-message', (msg) => {
-        console.log('Message on server')
+        //console.log('Message on server')
         socket.broadcast.emit('receive-message', msg)
     })
   })
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+  //console.log(`Server listening on port ${PORT}`);
 });
