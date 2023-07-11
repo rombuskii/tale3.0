@@ -22,9 +22,7 @@ const ChatRoom = () => {
     const socketRootUrl = "/api/socket"
     fetch(socketRootUrl)
     
-    socket = io({
-        path: `${socketRootUrl}/socket.io`,
-    });
+    socket = io('https://tale-r.netlify.app/');
     
 
     socket.on('connect', () => {
