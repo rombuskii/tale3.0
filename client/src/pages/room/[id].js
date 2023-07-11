@@ -2,13 +2,14 @@ import React, {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import io from 'socket.io-client'
 import Image from '../../components/Image'
-let socket = null;
+//let socket = null;
 
 const ChatRoom = () => {
   const router = useRouter()
   const [messages, setMessages] = useState([])
   const [msg, setMsg] = useState('')
   const [file, setFile] = useState(null)
+  const [socket, setSocket] = useState(null);
   const id = router.query.id
   let username;
   if (typeof window !== "undefined" && window.localStorage) {
@@ -17,14 +18,13 @@ const ChatRoom = () => {
 
 
 
-  const socketInitializer = async() => {
+  /* const socketInitializer = async() => {
     if (!socket) {
     const socketRootUrl = "/api/socket"
     fetch(socketRootUrl)
+
     
-    socket = io({
-        path: `${socketRootUrl}/socket.io`,
-    });
+    socket = io('http://localhost:3001');
     
 
     socket.on('connect', () => {
@@ -43,14 +43,16 @@ const ChatRoom = () => {
         });
         console.log("Received message is: " + msg)
     })
+
 }
+
 return () => {
     if (socket) {
         socket.disconnect();
         socket = null;
     }
   }
-}
+} */
 const selectFile = (e) => {
   e.preventDefault();
   setMsg(e.target.files[0].name)
@@ -63,7 +65,7 @@ const send = async(e) => {
   e.preventDefault()
   if(file) {
     let item = {file, sender: username}
-    socket?.emit("send-message", item)
+    socket.emit("send-message", item)
     setMessages((prev) => {
       return [
         ...prev,
@@ -77,7 +79,7 @@ const send = async(e) => {
   const value = `${username}: ${msg}`
   const me = `Me : ${msg}`
   console.log(value)
-  socket?.emit("send-message", value)
+  socket.emit("send-message", value)
   setMessages((prev) => {
     return [
       ...prev,
@@ -87,9 +89,36 @@ const send = async(e) => {
   setMsg('')
 }
 
-  useEffect(() => {
-    socketInitializer()
-}, [])
+useEffect(() => {
+  console.log("Connecting to WebSocket server...");
+  
+  const newSocket = io('http://localhost:3001', {
+    transports: ["websocket"],
+  });
+
+  newSocket.on('connect', () => {
+    console.log('Connected client')
+  })
+
+  newSocket.on('receive-message', (msg) => {
+    console.log('I received the message')
+    setMessages((prev) => {
+        return [
+            ...prev,
+            msg
+        ]
+    });
+    console.log("Received message is: " + msg)
+})
+
+  setSocket(newSocket);
+
+  // Clean up the socket connection on unmount
+  return () => {
+    console.log("Disconnecting from WebSocket server...");
+    newSocket.disconnect();
+  };
+}, []);
 
 
   return (

@@ -9,24 +9,16 @@ const io = new Server(server);
 
 app.use(cors()); // Enable CORS for all routes
 
-io.on("connection", (socket) => {
-  console.log("A user connected");
+io.on('connection', socket => {
+    socket.broadcast.emit("A user connected server-side")
+    
+    socket.on('send-message', (msg) => {
+        console.log('Message on server')
+        socket.broadcast.emit('receive-message', msg)
+    })
+  })
 
-  // Listen for incoming messages
-  socket.on("message", (message) => {
-    console.log("Received message:", message);
-
-    // Broadcast the message to all connected clients
-    io.emit("message", message);
-  });
-
-  // Handle disconnection
-  socket.on("disconnect", () => {
-    console.log("A user disconnected");
-  });
-});
-
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
