@@ -22,7 +22,9 @@ const ChatRoom = () => {
     const socketRootUrl = "/api/socket"
     fetch(socketRootUrl)
     
-    socket = io('https://tale-tcz3.onrender.com');
+    socket = io({
+        path: `${socketRootUrl}/socket.io`,
+    });
     
 
     socket.on('connect', () => {
