@@ -2,7 +2,6 @@ import React, {useState, useEffect, useRef} from 'react'
 import {useRouter} from 'next/router'
 import io from 'socket.io-client'
 import Image from '../../components/Image'
-//let socket = null;
 
 const ChatRoom = () => {
   const router = useRouter()
@@ -48,7 +47,6 @@ const send = async(e) => {
   }
   const value = `${username}: ${msg}`
   const me = `Me : ${msg}`
-  //console.log(value)
   socket.emit("send-message", value)
   setMessages((prev) => {
     return [
@@ -61,7 +59,6 @@ const send = async(e) => {
 }
 
 useEffect(() => {
-  //console.log("Connecting to WebSocket server...");
 
   const newSocket = io('https://tale-tcz3.onrender.com', {
     transports: ["websocket"],
@@ -72,7 +69,8 @@ useEffect(() => {
   })
 
   newSocket.on('receive-message', (msg) => {
-    //console.log('I received the message')
+    let list = messages.concat(msg)
+    saveChat(id, list)
     setMessages((prev) => {
         return [
             ...prev,
@@ -121,7 +119,7 @@ useEffect(() => {
             return (
               <div className='w-full flex justify-end'>
             <div className='w-4/12 rounded-xl p-2 border-2 border-white bg-white dark:border-red-500 dark:bg-red-500 my-10 sm:my-4'>
-            <p key={i} className='break-words text-right'>{msg}</p>
+            <p className='break-words text-right'>{msg}</p>
             </div> 
             </div>
             )
@@ -129,7 +127,7 @@ useEffect(() => {
             return (
               <div className='w-full flex justify-start'>
               <div className='w-4/12 rounded-xl p-2 border-2 border-white bg-white dark:border-red-500 dark:bg-red-500 my-10 sm:my-4'>
-              <p key={i} className='break-words text-left'>{msg}</p>
+              <p className='break-words text-left'>{msg}</p>
               </div>
               </div>
             )
